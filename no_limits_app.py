@@ -2,7 +2,6 @@
 
 import sqlalchemy
 from datetime import datetime
-from datetime import timedelta
 from datetime import timezone
 from app.configs import db
 from flask_migrate import Migrate
@@ -54,5 +53,7 @@ if __name__ == '__main__':
             except Exception as e:
                 print(f"Error to get Users. {str(e)}")
 
+    print(f"DEBUG MODE: {app.config['DEBUG']}")
+    print(f"FLASK ENV: {app.config['FLASK_ENV']}")
     app.run(host='0.0.0.0', ssl_context='adhoc', debug=app.config['DEBUG'], port=app.config['PORT'])
     #app.run(host='0.0.0.0', debug=True, port=5000)

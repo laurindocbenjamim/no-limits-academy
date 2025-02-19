@@ -32,18 +32,23 @@ class Config(MySmtpConfig):
     JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY', "543210")  # Secure key
     #SQLALCHEMY_DATABASE_URI = "sqlite://"
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL", "sqlite:///development.db")
+    if not SQLALCHEMY_DATABASE_URI.startswith("sqlite://"):
+        SQLALCHEMY_DATABASE_URI = "sqlite:///development.db"
+    
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     JWT_ALGORITHM = "HS256"
     JWT_ACCESS_TOKEN_EXPIRES = ACCESS_EXPIRES
 
 class DevelopmentConfig(Config):
     PORT=5000
-    DEBUG = True
-    LOG_LEVEL = "DEBUG"
+    DEBUG=True
+    FLASK_ENV=os.environ.get("FLASK_ENV","development")
+    LOG_LEVEL="DEBUG"
     MAX_CONNECTIONS = int(os.getenv("MAX_CONNECTIONS", 100))
 
 class ProductionConfig(Config):
     PORT=5000
     DEBUG = False
     LOG_LEVEL = "ERROR"
+    FLASK_ENV=os.environ.get("FLASK_ENV","production")
     MAX_CONNECTIONS = int(os.getenv("MAX_CONNECTIONS", 100))
